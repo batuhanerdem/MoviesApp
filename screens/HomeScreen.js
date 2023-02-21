@@ -1,10 +1,9 @@
 import {getPopularMovies, getTopRatedMovies} from '../service/service';
 import {StatusBar} from "expo-status-bar";
 import React, {useEffect, useState} from "react";
-import {StyleSheet, Text, View, Dimensions, FlatList, ScrollView} from "react-native";
+import {FlatList, StyleSheet, Text, View} from "react-native";
 import {SliderBox} from 'react-native-image-slider-box';
 import MovieView from "../components/movie";
-import movie from "../components/movie";
 
 export const BASE_IMAGE_URL = "https://image.tmdb.org/t/p/w500";
 const HomeScreen = () => {
