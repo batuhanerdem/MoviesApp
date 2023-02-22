@@ -1,12 +1,12 @@
 import {getPopularMovies, getTopRatedMovies} from '../service/service';
 import {StatusBar} from "expo-status-bar";
 import React, {useEffect, useState} from "react";
-import {FlatList, SafeAreaView, StyleSheet, Text, View, Dimensions} from "react-native";
+import {FlatList, SafeAreaView, StyleSheet, Text, View, Dimensions, ScrollView} from "react-native";
 import {SliderBox} from 'react-native-image-slider-box';
 import MovieView from "../components/movie";
 
 export const BASE_IMAGE_URL = "https://image.tmdb.org/t/p/w500";
-export const screen = Dimensions.get("screen")
+const screen = Dimensions.get("screen")
 const HomeScreen = () => {
     const [topRatedMovieUrl, setTopRatedMovieUrl] = useState([]);
     const [popularMovies, setPopularMovies] = useState([]);
@@ -34,7 +34,6 @@ const HomeScreen = () => {
             setError(err)
         })
     }, []);
-    //console.log(popularMovies[0].id)
     //autoplay true yap
 
     return (
