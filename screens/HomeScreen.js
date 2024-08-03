@@ -1,110 +1,91 @@
-import {getPopularMovies, getTopRatedMovies} from '../service/service';
-import {StatusBar} from "expo-status-bar";
-import React, {useEffect, useState} from "react";
-import {FlatList, SafeAreaView, StyleSheet, Text, View, Dimensions, ScrollView} from "react-native";
-import {SliderBox} from 'react-native-image-slider-box';
-import MovieView from "../components/movie";
+import { getPopularMovies, getTopRatedMovies, getPopularTv, getTopRatedTv } from '../service/service';
+import { StatusBar } from "expo-status-bar";
+import React, { useEffect, useState } from "react";
+import { Dimensions, ScrollView, StyleSheet, Text, View } from "react-native";
+import { SliderBox } from 'react-native-image-slider-box';
+import MovieListView from "../components/MovieListView";
+import { ActivityIndicator } from "react-native";
+
 
 export const BASE_IMAGE_URL = "https://image.tmdb.org/t/p/w500";
+//const placeholderImage = require("../assets/placeholder-image.png")
 const screen = Dimensions.get("screen")
-const HomeScreen = () => {
-    const [topRatedMovieUrl, setTopRatedMovieUrl] = useState([]);
-    const [popularMovies, setPopularMovies] = useState([]);
+const HomeScreen = ({ navigation }) => {
+    const [topRatedMovieUrl, setTopRatedMovieUrl] = useState();
+    const [topRatedMovies, setTopRatedMovies] = useState();
+    const [popularMovies, setPopularMovies] = useState();
+    const [popularTvShows, setPopularTvShows] = useState()
+    const [topRatedTvShows, setTopRatedTvShows] = useState()
     const [error, setError] = useState(false);
+    const [isLoaded, setIsLoaded] = useState(false)
+    const getData = () => {
+        return Promise.all([getTopRatedMovies(), getPopularMovies(), getPopularTv(), getTopRatedTv()])
+    }
+    {
+        topRatedTvShows && console.log(topRatedTvShows[4].id)
+    }
+
 
     useEffect(() => {
-        getTopRatedMovies()
-            .then((movies) => {
-                const movieUrlArray = []
-                movies.forEach((movie) => {
-                    movieUrlArray.push(`${BASE_IMAGE_URL}${movie.poster_path}`)
-                })
-                setTopRatedMovieUrl(movieUrlArray);
+        getData().then(([topRatedMovies, popularMovies, popularShows, topRatedShows]) => {
+            const movieUrlArray = []
+            topRatedMovies.forEach((movie) => {
+                movieUrlArray.push(`${BASE_IMAGE_URL}${movie.poster_path}`)
             })
-            .catch((err) => {
-                console.log(err);
-                setError(err);
-            });
-        getPopularMovies()
-            .then((movies) => {
-                setPopularMovies(movies);
-
-            }).catch((err) => {
-            console.log(err)
+            setTopRatedMovies(topRatedMovies)
+            setTopRatedMovieUrl(movieUrlArray)
+            setPopularMovies(popularMovies)
+            setPopularTvShows(popularShows)
+            setTopRatedTvShows(topRatedShows)
+        }).catch((err) => {
             setError(err)
+        }).finally(() => {
+            setIsLoaded(true)
         })
     }, []);
-    //autoplay true yap
 
-    return (
-        <SafeAreaView style={styles.container}>
-
+    return <View style={{ flex: 1, justifyContent: "center" }}>
+        {!isLoaded && <ActivityIndicator size={"large"} color={"blue"} />}
+        {isLoaded && <ScrollView style={styles.container}>
             <View style={styles.slider}>
                 <SliderBox images={topRatedMovieUrl}
-                           sliderBoxHeight={screen.height/2}
-                           resizeMode={'contain'}
-                           dotStyle={styles.dot}
-                           ImageComponentStyle={styles.sliderImage}
-                           autoplay={false}/>
-                {error && <ErrorText/>}
-                <StatusBar style="auto"/>
+                    sliderBoxHeight={screen.height / 2}
+                    onCurrentImagePressed={(index) => {
+                        navigation.navigate('Details', { id: topRatedMovies[index].id, isMovie: true })
+                    }}
+                    resizeMode={'contain'}
+                    dotStyle={styles.dot}
+                    ImageComponentStyle={styles.sliderImage}
+                    autoplay={true} />
+                {error && <ErrorText />}
+                <StatusBar style="auto" />
             </View>
-
-            <Text style={styles.popularText}>Popüler Filmler</Text>
             <View style={styles.listContainer}>
-                <FlatList data={popularMovies}
-                          horizontal={true}
-                          style={styles.flatList}
-                          renderItem={(item) =>
-                              <MovieView style={styles.container} item={item.item}/>
-                          }/>
+                <MovieListView data={popularMovies} navigation={navigation} text={"Popüler Filmler"} isMovie={true} />
+                <MovieListView data={popularTvShows} navigation={navigation} text={"Popüler Diziler"} isMovie={true} />
+                <MovieListView data={topRatedTvShows} navigation={navigation} text={"Yüksek Puanlı Diziler"} isMovie={false} />
             </View>
-            {/*<View style={styles.listContainer}>*/}
-            {/*</View>*/}
-
-        </SafeAreaView>
-    );
+        </ScrollView>}
+    </View>;
 }
 
 const styles = StyleSheet.create({
     container: {
-        flex: 1,
-        flexDirection: "column",
-        backgroundColor: "rgba(8,89,109,0.95)"
-    },
-    slider: {
-        height: screen.height/2,
-        alignItems: "center",
-        justifyContent: "center",
-    },
-    sliderImage:{
-        borderRadius:10
-    },
-    listContainer: {
-        flex: 0,
-        alignItems: "flex-start",
-        justifyContent: "flex-start",
-        height: screen.height/5
-    },
-    flatList: {
-        marginHorizontal: 10
-    },
-    popularText: {
-        fontSize: 20,
-        color: "#f7f720",
-        paddingStart: 19,
-        fontWeight: "bold",
-        paddingTop: 10,
-        paddingBottom:10
-    },
-    dot: {
+        flex: 0, flexDirection: "column", backgroundColor: "rgba(8,89,109,0.95)",
+    }, slider: {
+        height: screen.height / 2, alignItems: "center", justifyContent: "center",
+    }, sliderImage: {
+        borderRadius: 10
+    }, listContainer: {
+        flex: 0, alignItems: "center", justifyContent: "space-evenly", paddingBottom: 20
+    }, dot: {
         height: 0
     }
 });
 
 const ErrorText = () => {
     return (<View>
-        <Text style={styles.text}>There is an error sir</Text>
+        <Text style={styles.text}>There is an error</Text>
     </View>);
 };
 
