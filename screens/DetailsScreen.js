@@ -30,6 +30,7 @@ const DetailsScreen = ({ route, navigation }) => {
                     <Image
                         source={{ uri: BASE_IMAGE_URL + item.poster_path }}
                         style={styles.movieImage}
+                        resizeMode="cover"
                     />
                     <View style={styles.textContainer}>
                         <Text style={styles.text}>{`name: ${item.title || item.name || item.original_name}`}</Text>
