@@ -1,5 +1,5 @@
-import React, {Component} from 'react';
-import {FlatList, View, StyleSheet, Text} from "react-native";
+import React, { Component } from 'react';
+import { FlatList, View, StyleSheet, Text } from "react-native";
 import MovieView from "./movie";
 import PropTypes from "prop-types";
 
@@ -16,12 +16,12 @@ class MovieListView extends Component {
             <View style={styles.container}>
                 <Text style={styles.text}> {this.props.text}</Text>
                 <FlatList data={this.props.data}
-                          horizontal={true}
-                          style={styles.flatList}
-                          renderItem={(items) =>
-                              <MovieView style={styles.movie} item={items.item} navigation={this.props.navigation}
-                                         isMovie={this.props.isMovie}/>
-                          }/>
+                    horizontal={true}
+                    style={styles.flatList}
+                    renderItem={(items) =>
+                        <MovieView style={styles.movie} item={items.item} navigation={this.props.navigation}
+                            isMovie={this.props.isMovie} />
+                    } />
             </View>
 
         );
@@ -43,10 +43,10 @@ const styles = StyleSheet.create({
         flexDirection: "column",
     },
     text: {
-        fontSize: 20,
-        color: "#f7f720",
+        fontSize: 23,
+        color: "#000000",
         paddingStart: 19,
-        fontWeight: "bold",
+        fontWeight: "800",
         paddingTop: 10,
         paddingBottom: 10
     },

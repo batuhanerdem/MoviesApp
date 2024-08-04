@@ -62,7 +62,7 @@ const HomeScreen = ({ navigation }) => {
             </View>
             <View style={styles.listContainer}>
                 <MovieListView data={popularMovies} navigation={navigation} text={"Popüler Filmler"} isMovie={true} />
-                <MovieListView data={popularTvShows} navigation={navigation} text={"Popüler Diziler"} isMovie={true} />
+                <MovieListView data={popularTvShows} navigation={navigation} text={"Popüler Diziler"} isMovie={false} />
                 <MovieListView data={topRatedTvShows} navigation={navigation} text={"Yüksek Puanlı Diziler"} isMovie={false} />
             </View>
         </ScrollView>}
@@ -71,7 +71,7 @@ const HomeScreen = ({ navigation }) => {
 
 const styles = StyleSheet.create({
     container: {
-        flex: 0, flexDirection: "column", backgroundColor: "rgba(8,89,109,0.95)",
+        flex: 0, flexDirection: "column", //backgroundColor: "rgba(8,89,109,0.95)",
     }, slider: {
         height: screen.height / 2, alignItems: "center", justifyContent: "center",
     }, sliderImage: {
