@@ -40,10 +40,15 @@ const DetailsScreen = ({ route, navigation }) => {
                     </View>
                     <View style={styles.detailsContainer}>
                         <Text style={styles.goldenText}>{`Original Language: ${item.original_language}`}</Text>
-                        <Text style={styles.goldenText}>{`First Air Date: ${item.original_language}`}</Text>
+                        {route.params.isMovie ? (
+                            <Text style={styles.goldenText}>{`Release Date: ${item.release_date}`}</Text>
+                        ) : (
+                            <Text style={styles.goldenText}>{`First Air Date: ${item.first_air_date}`}</Text>
+                        )}
                         <Text style={styles.goldenText}>{`Popularity: ${item.popularity}`}</Text>
+                        <Text style={styles.goldenText}>{`Vote Average: ${item.vote_average}`}</Text>
+                        <Text style={styles.goldenText}>{`Vote Count: ${item.vote_count}`}</Text>
                         <Text style={styles.text}>{`Overview: ${item.overview}`}</Text>
-
                     </View>
                 </ScrollView>
             )}
