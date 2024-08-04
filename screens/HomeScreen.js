@@ -61,9 +61,9 @@ const HomeScreen = ({ navigation }) => {
                 <StatusBar style="auto" />
             </View>
             <View style={styles.listContainer}>
-                <MovieListView data={popularMovies} navigation={navigation} text={"Popüler Filmler"} isMovie={true} />
-                <MovieListView data={popularTvShows} navigation={navigation} text={"Popüler Diziler"} isMovie={false} />
-                <MovieListView data={topRatedTvShows} navigation={navigation} text={"Yüksek Puanlı Diziler"} isMovie={false} />
+                <MovieListView data={popularMovies} navigation={navigation} text={"Popular Movies"} isMovie={true} />
+                <MovieListView data={popularTvShows} navigation={navigation} text={"Popular Tv Shows"} isMovie={false} />
+                <MovieListView data={topRatedTvShows} navigation={navigation} text={"High Rated Tv Shows"} isMovie={false} />
             </View>
         </ScrollView>}
     </View>;
