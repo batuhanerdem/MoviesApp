@@ -58,21 +58,27 @@ const styles = StyleSheet.create({
     },
     textContainer: {
         marginTop: 10,
-        width: screen.width / 2.5, // Make the container take the same width as the image
-        alignItems: 'center', // Center the text inside the container
+        width: screen.width / 2.5,
+        alignItems: 'center',
     },
     text: {
         fontSize: 20,
         color: "#000000",
         fontWeight: "500",
-        textAlign: 'center', // Center text horizontally within the container
-        flexWrap: 'wrap', // Allow text to wrap to the next line
+        textAlign: 'center',
+        flexWrap: 'wrap',
     },
     grayText: {
         fontSize: 20,
         color: "#888888",
         fontWeight: "500",
-        textAlign: 'center', // Center text horizontally within the container
+        textAlign: 'center',
+    },
+    goldenText: {
+        fontSize: 20,
+        color: "#A1824A",
+        fontWeight: "500",
+        textAlign: 'center',
     }
 });
 
